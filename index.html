@@ -2,243 +2,420 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="XU-A-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width" />
-    <title>tetris</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trafic Racer Game</title>
     <style>
       body {
-        background-color: #202028;
-        font-size: 2em;
-        text-align: center;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        background-color: #45d678;
+      }
+
+      #container {
+        position: relative;
+        height: 90vh;
+        width: 25%;
+        left: 35%;
+        margin-top: 20px;
+        background-color: #292929;
+        overflow: hidden;
+      }
+
+      .line {
+        height: 150px;
+        position: absolute;
+        width: 4%;
+        margin-left: 48%;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      #line1 {
+        top: -150px;
+      }
+
+      #line2 {
+        top: 150px;
+      }
+
+      #line3 {
+        top: 450px;
+      }
+
+      .car {
+        position: absolute;
+        height: 60px;
+        width: 40px;
+        border-radius: 5px;
+        box-shadow: 0px 1px 8px 0px #000;
+      }
+
+      #car {
+        bottom: 8%;
+        left: 60%;
+        background-color: #ffdf5a;
+      }
+
+      #car1 {
+        bottom: -100px;
+        left: 40%;
+        background-color: #26c5ff;
+      }
+
+      #car2 {
+        bottom: -200px;
+        left: 40%;
+        background-color: #26c5ff;
+      }
+
+      #car3 {
+        bottom: -350px;
+        left: 50%;
+        background-color: #26c5ff;
+      }
+
+      .fglass {
+        position: absolute;
+        height: 20%;
+        width: 60%;
+        margin-left: 20%;
+        top: 15%;
+        border-radius: 0px 0px 5px 5px;
+        background-color: #484848;
+      }
+
+      .bglass {
+        position: absolute;
+        height: 20%;
+        width: 60%;
+        margin-left: 20%;
+        bottom: 15%;
+        border-radius: 5px 5px 0px 0px;
+        background-color: #484848;
+      }
+
+      .flightl {
+        position: absolute;
+        height: 10%;
+        width: 20%;
+        margin-left: 10%;
+        top: -6%;
+        border-radius: 5px 5px 0px 0px;
+        background-color: #efefef;
+      }
+
+      .flightr {
+        position: absolute;
+        height: 10%;
+        width: 20%;
+        margin-left: 70%;
+        top: -6%;
+        border-radius: 5px 5px 0px 0px;
+        background-color: #efefef;
+      }
+
+      .ftyrel {
+        position: absolute;
+        height: 20%;
+        width: 10%;
+        background-color: gray;
+        top: 20%;
+        left: -10%;
+        border-radius: 5px 0px 0px 5px;
+      }
+
+      .ftyrer {
+        position: absolute;
+        height: 20%;
+        width: 10%;
+        background-color: gray;
+        top: 20%;
+        left: 100%;
+        border-radius: 0px 5px 5px 0px;
+      }
+
+      .btyrel {
+        position: absolute;
+        height: 20%;
+        width: 10%;
+        background-color: gray;
+        top: 70%;
+        left: -10%;
+        border-radius: 5px 0px 0px 5px;
+      }
+
+      .btyrer {
+        position: absolute;
+        height: 20%;
+        width: 10%;
+        background-color: gray;
+        top: 70%;
+        left: 100%;
+        border-radius: 0px 5px 5px 0px;
+      }
+
+      #restartdiv {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(29, 29, 29, 0.7);
         color: #fff;
+        font-family: sans-serif;
+        font-size: 40px;
+        text-align: center;
+        display: none;
+        z-index: 5;
       }
-      canvas {
-        height: 85vh;
-        border: 0.2em solid #fff;
+
+      #restartbtn {
+        border: none;
+        padding: 25px;
+        color: #fff;
+        background-color: #8a64ff;
+        font-size: 30px;
+        top: 40%;
+        position: relative;
+        cursor: pointer;
       }
+
+      small {
+        font-size: 15px;
+      }
+
+      #scorediv {
+        position: absolute;
+        margin-top: 20%;
+        margin-left: 10%;
+        font-size: 35px;
+        background-color: #fff;
+        color: #454545;
+        padding: 10px 100px 10px 10px;
+        box-shadow: 4px 4px 0px 1px #808080;
+      }
+
+      /* #score { */
+      /* display: block; */
+      /* } */
     </style>
   </head>
 
   <body>
-    <div id="score"></div>
-    <canvas id="canvas" width="240" height="400"></canvas>
+    <div id="scorediv">Score : <span id="score">0</span></div>
+    <div id="container">
+      <div id="line1" class="line"></div>
+      <div id="line2" class="line"></div>
+      <div id="line3" class="line"></div>
+      <div id="car" class="car">
+        <div class="fglass"></div>
+        <div class="bglass"></div>
+        <div class="flightl"></div>
+        <div class="flightr"></div>
+        <div class="ftyrel"></div>
+        <div class="ftyrer"></div>
+        <div class="btyrel"></div>
+        <div class="btyrer"></div>
+      </div>
+      <div id="car1" class="car">
+        <div class="fglass"></div>
+        <div class="bglass"></div>
+        <div class="flightl"></div>
+        <div class="flightr"></div>
+        <div class="ftyrel"></div>
+        <div class="ftyrer"></div>
+        <div class="btyrel"></div>
+        <div class="btyrer"></div>
+      </div>
+      <div id="car2" class="car">
+        <div class="fglass"></div>
+        <div class="bglass"></div>
+        <div class="flightl"></div>
+        <div class="flightr"></div>
+        <div class="ftyrel"></div>
+        <div class="ftyrer"></div>
+        <div class="btyrel"></div>
+        <div class="btyrer"></div>
+      </div>
+      <div id="car3" class="car">
+        <div class="fglass"></div>
+        <div class="bglass"></div>
+        <div class="flightl"></div>
+        <div class="flightr"></div>
+        <div class="ftyrel"></div>
+        <div class="ftyrer"></div>
+        <div class="btyrel"></div>
+        <div class="btyrer"></div>
+      </div>
+      <div id="restartdiv">
+        <button id="restartbtn">
+          Restart<br />
+          <small>(Press Enter)</small>
+        </button>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      const player = {
-        position: { x: 0, y: 0 },
-        matrix: createPiece("T"),
-        score: 0,
-      };
-      const arena = createMatrix(12, 20);
-      const colors = [
-        null,
-        "red",
-        "green",
-        "brown",
-        "violet",
-        "blue",
-        "deepskyblue",
-        "pink",
-      ];
-      let dropCounter = 0,
-        dropInterval = 1000,
-        lastTime = 0;
-      ctx.scale(20, 20);
-      function arenaSweep() {
-        let rowCount = 1;
-        outer: for (let y = arena.length - 1; y > 0; y--) {
-          for (let x = 0; x < arena[y].length; x++) {
-            if (arena[y][x] === 0) {
-              continue outer;
-            }
+      var animid;
+      var container = $("#container");
+      var car = $("#car");
+      var car1 = $("#car1");
+      var car2 = $("#car2");
+      var car3 = $("#car3");
+      var line1 = $("#line1");
+      var line2 = $("#line2");
+      var line3 = $("#line3");
+      var restartdiv = $("#restartdiv");
+      var restartdbtn = $("#restartbtn");
+      var score = $("#score");
+      var containerwidth = parseInt(container.width());
+      var containerheight = parseInt(container.height());
+      var carwidth = parseInt(car.width());
+      var carheight = parseInt(car.height());
+      var gameover = false;
+      var scorecount = 1;
+      var speed = 2;
+      var linespeed = 5;
+      var moveup = false;
+      var movedown = false;
+      var moveright = false;
+      var moveleft = false;
+
+      function collision(div1, div2) {
+        var x1 = div1.offset().left;
+        var y1 = div1.offset().top;
+        var h1 = div1.outerHeight(true);
+        var w1 = div1.outerWidth(true);
+        var b1 = y1 + h1;
+        var r1 = x1 + w1;
+
+        var x2 = div2.offset().left;
+        var y2 = div2.offset().top;
+        var h2 = div2.outerHeight(true);
+        var w2 = div2.outerWidth(true);
+        var b2 = y2 + h2;
+        var r2 = x2 + w2;
+        if (b1 < y2 || b2 < y1 || r1 < x2 || x1 > r2) {
+          return false;
+        }
+        return true;
+      }
+      $(document).on("keydown", function (e) {
+        if (gameover === false) {
+          var key = e.keyCode;
+          if (key === 37 && moveleft === false) {
+            moveleft = requestAnimationFrame(left);
+          } else if (key === 39 && moveright === false) {
+            moveright = requestAnimationFrame(right);
+          } else if (key === 38 && moveup === false) {
+            moveup = requestAnimationFrame(up);
+          } else if (key === 40 && movedown === false) {
+            movedown = requestAnimationFrame(down);
           }
-          const row = arena.splice(y, 1)[0].fill(0);
-          arena.unshift(row);
-          y++;
-          player.score += rowCount * 10;
-          rowCount++;
-        }
-      }
-      function playerReset() {
-        const pieces = "ILJOTSZ";
-        player.position.y = 0;
-        player.position.x =
-          ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
-        player.matrix = createPiece(
-          pieces[(pieces.length * Math.random()) | 0]
-        );
-        if (isCollide(arena, player)) {
-          arena.forEach((row) => row.fill(0));
-          player.score = 0;
-          updateScore();
-        }
-      }
-      function playerMove(direction) {
-        player.position.x += direction;
-        if (isCollide(arena, player)) {
-          player.position.x -= direction;
-        }
-      }
-      function playerDrop() {
-        player.position.y++;
-        if (isCollide(arena, player)) {
-          player.position.y--;
-          mergeMatrix(arena, player);
-          playerReset();
-          arenaSweep();
-          updateScore();
-        }
-        dropCounter = 0;
-      }
-      function playerRotate(direction) {
-        const position = player.position.x;
-        let offset = 1;
-        rotateMatrix(player.matrix, direction);
-        while (isCollide(arena, player)) {
-          player.position.x += offset;
-          offset = -(offset + (offset > 0 ? 1 : -1));
-          if (offset > player.matrix[0].length) {
-            rotateMatrix(player.matrix, -direction);
-            player.position.x = position;
-            return;
-          }
-        }
-      }
-      function isCollide(arena, player) {
-        const [matrix, playerPosition] = [player.matrix, player.position];
-        for (let y = 0; y < matrix.length; ++y) {
-          for (let x = 0; x < matrix[y].length; ++x) {
-            if (
-              matrix[y][x] !== 0 &&
-              (arena[y + playerPosition.y] &&
-                arena[y + playerPosition.y][x + playerPosition.x]) !== 0
-            ) {
-              return true;
-            }
-          }
-        }
-        return false;
-      }
-      function createPiece(type) {
-        if (type === "T") {
-          return [
-            [1, 1, 1],
-            [0, 1, 0],
-            [0, 0, 0],
-          ];
-        } else if (type === "O") {
-          return [
-            [2, 2],
-            [2, 2],
-          ];
-        } else if (type === "L") {
-          return [
-            [0, 3, 0],
-            [0, 3, 0],
-            [0, 3, 3],
-          ];
-        } else if (type === "J") {
-          return [
-            [0, 4, 0],
-            [0, 4, 0],
-            [4, 4, 0],
-          ];
-        } else if (type === "I") {
-          return [
-            [0, 5, 0, 0],
-            [0, 5, 0, 0],
-            [0, 5, 0, 0],
-          ];
-        } else if (type === "S") {
-          return [
-            [0, 6, 6],
-            [6, 6, 0],
-            [0, 0, 0],
-          ];
-        } else if (type === "Z") {
-          return [
-            [7, 7, 0],
-            [0, 7, 7],
-            [0, 0, 0],
-          ];
-        }
-      }
-      function createMatrix(w, h) {
-        const matrix = [];
-        while (h--) {
-          matrix.push(new Array(w).fill(0));
-        }
-        return matrix;
-      }
-      function mergeMatrix(arena, player) {
-        player.matrix.forEach((row, y) => {
-          row.forEach((value, x) => {
-            if (value !== 0) {
-              arena[y + player.position.y][x + player.position.x] = value;
-            }
-          });
-        });
-      }
-      function rotateMatrix(matrix, direction) {
-        for (let y = 0; y < matrix.length; y++) {
-          for (let x = 0; x < y; x++) {
-            [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
-          }
-        }
-        if (direction > 0) {
-          matrix.forEach((row) => {
-            row.reverse();
-          });
-        } else {
-          matrix.reverse();
-        }
-      }
-      function drawMatrix(matrix, offset) {
-        matrix.forEach((row, y) => {
-          row.forEach((value, x) => {
-            if (value !== 0) {
-              ctx.fillStyle = colors[value];
-              ctx.fillRect(x + offset.x, y + offset.y, 1, 1);
-            }
-          });
-        });
-      }
-      function draw() {
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        drawMatrix(arena, { x: 0, y: 0 });
-        drawMatrix(player.matrix, player.position);
-      }
-      function update(frameTime = 0) {
-        const deltaTime = frameTime - lastTime;
-        lastTime = frameTime;
-        dropCounter += deltaTime;
-        if (dropCounter > dropInterval) {
-          playerDrop();
-        }
-        requestAnimationFrame(update);
-        draw();
-      }
-      function updateScore() {
-        document.getElementById("score").innerHTML = player.score;
-      }
-      document.addEventListener("keydown", (event) => {
-        if (event.keyCode === 37) {
-          playerMove(-1);
-        } else if (event.keyCode === 39) {
-          playerMove(1);
-        } else if (event.keyCode === 40) {
-          playerDrop();
-        } else if (event.keyCode == 81) {
-          playerRotate(-1);
-        } else if (event.keyCode == 87) {
-          playerRotate(1);
         }
       });
-      playerReset();
-      updateScore();
-      update();
+      $(document).on("keyup", function (e) {
+        if (gameover === false) {
+          var key = e.keyCode;
+          if (key === 37) {
+            cancelAnimationFrame(moveleft);
+            moveleft = false;
+          } else if (key === 39) {
+            cancelAnimationFrame(moveright);
+            moveright = false;
+          } else if (key === 38) {
+            cancelAnimationFrame(moveup);
+            moveup = false;
+          } else if (key === 40) {
+            cancelAnimationFrame(movedown);
+            movedown = false;
+          }
+        }
+      });
+      function left() {
+        if (gameover === false && parseInt(car.css("left")) > 0) {
+          car.css("left", parseInt(car.css("left")) - 5);
+          moveleft = requestAnimationFrame(left);
+        }
+      }
+      function right() {
+        if (
+          gameover === false &&
+          parseInt(car.css("left")) < containerwidth - carwidth
+        ) {
+          car.css("left", parseInt(car.css("left")) + 5);
+          moveright = requestAnimationFrame(right);
+        }
+      }
+      function up() {
+        if (gameover === false && parseInt(car.css("top")) > 0) {
+          car.css("top", parseInt(car.css("top")) - 5);
+          moveup = requestAnimationFrame(up);
+        }
+      }
+      function down() {
+        if (
+          gameover === false &&
+          parseInt(car.css("top")) < containerheight - carheight
+        ) {
+          car.css("top", parseInt(car.css("top")) + 5);
+          movedown = requestAnimationFrame(down);
+        }
+      }
+      animid = requestAnimationFrame(repeat);
+      function repeat() {
+        if (gameover === false) {
+          if (
+            collision(car, car1) ||
+            collision(car, car2) ||
+            collision(car, car3)
+          ) {
+            stopthegame();
+          }
+          scorecount++;
+          if (scorecount % 10 == 0) {
+            score.text(parseInt(score.text()) + 1);
+          }
+          if (scorecount % 500 == 0) {
+            speed++;
+            linespeed++;
+          }
+          cardown(car1);
+          cardown(car2);
+          cardown(car3);
+          linedown(line1);
+          linedown(line2);
+          linedown(line3);
+          animid = requestAnimationFrame(repeat);
+        }
+      }
+      function cardown(element) {
+        var currenttop = parseInt(element.css("top"));
+        if (currenttop > containerheight) {
+          currenttop = -(Math.random() * containerheight);
+          var carleft = parseInt(Math.random() * (containerwidth - carwidth));
+          element.css("left", carleft);
+        }
+        element.css("top", currenttop + speed);
+      }
+      function linedown(element) {
+        var currenttop = parseInt(element.css("top"));
+        if (currenttop > containerheight) {
+          currenttop = -200;
+        }
+        element.css("top", currenttop + linespeed);
+      }
+      function stopthegame() {
+        gameover = true;
+        cancelAnimationFrame(animid);
+        cancelAnimationFrame(moveleft);
+        cancelAnimationFrame(moveright);
+        cancelAnimationFrame(moveup);
+        cancelAnimationFrame(movedown);
+        restartdiv.fadeIn();
+      }
+      restartdbtn.click(function () {
+        location.reload();
+      });
     </script>
   </body>
 </html>
